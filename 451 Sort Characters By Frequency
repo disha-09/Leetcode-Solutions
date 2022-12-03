@@ -1,0 +1,23 @@
+class Solution {
+    public String frequencySort(String s) {
+        
+        Map<Character, Integer> map = new HashMap<>();
+        for(int i = 0; i < s.length(); i++)
+            map.merge(s.charAt(i),1,Integer::sum);
+        
+        List<Map.Entry<Character, Integer>> list = map.entrySet()
+                                                        .stream()
+                                                        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                                                        .collect(Collectors.toList());
+        
+        StringBuilder sb = new StringBuilder("");
+        for(Map.Entry<Character, Integer> i : list){
+            char c = i.getKey();
+            for(int m = 0; m < i.getValue(); m++){
+                sb.append(c);
+            }
+        }
+        
+        return sb.toString();
+    }
+}
