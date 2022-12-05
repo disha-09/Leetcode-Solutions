@@ -1,0 +1,12 @@
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        List<ListNode> list = new LinkedList<>();
+        
+        while(head != null){
+            list.add(head);
+            head = head.next;
+        }
+        
+        return list.get(list.size()/2);
+    }
+}
