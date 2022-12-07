@@ -1,0 +1,24 @@
+class Solution {
+    public int rangeSumBST(TreeNode root, int low, int high) {
+        if(root == null){
+            return 0;
+        }
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.add(root);
+        int sum = low + high;
+
+        while(!q.isEmpty()){
+            TreeNode tmp = q.remove();
+
+            if(tmp.val > low && tmp.val < high)
+                sum += tmp.val;    
+            if(tmp.left!=null)
+                    q.add(tmp.left);
+            if(tmp.right!=null)
+                    q.add(tmp.right);
+        }
+
+        return sum;
+
+    }
+}
