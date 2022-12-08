@@ -1,0 +1,40 @@
+class Solution {
+    public int countComponents(int n, int[][] edges) {
+        HashMap<Integer, List<Integer>> adjList = new HashMap<>();
+        int visited[] = new int[n];
+        int components = 0;
+
+        //initialize the adjList
+        for(int i = 0; i < n; i++)
+            adjList.put(i, new LinkedList<>());
+
+        //put the edges in adjList
+        for(int i = 0; i < edges.length; i++){
+            List<Integer> list = adjList.get(edges[i][0]);
+            list.add(edges[i][1]);
+            adjList.put(edges[i][0], list);
+
+            List<Integer> list1 = adjList.get(edges[i][1]);
+            list1.add(edges[i][0]);
+            adjList.put(edges[i][1], list1);
+        }
+        
+        //count the components by using dfs
+        for(int i = 0; i < n; i++){
+            if(visited[i] == 0){
+                components++;
+                dfs(visited, adjList, i);
+            }
+        }
+
+        return components;
+    }
+
+    public void dfs(int[] visited, HashMap<Integer, List<Integer>> adjList, int start){
+        visited[start] = 1;
+        for(int i = 0; i < adjList.get(start).size(); i++){
+            if(visited[adjList.get(start).get(i)] == 0)
+                dfs(visited, adjList, adjList.get(start).get(i));
+        }
+    }
+}

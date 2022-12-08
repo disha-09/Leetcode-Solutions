@@ -1,0 +1,24 @@
+class Solution {
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> list1 = new LinkedList<Integer>();
+        List<Integer> list2 = new LinkedList<Integer>();
+
+        list1 = traverseTree(root1, list1);
+        list2 = traverseTree(root2,list2);
+
+        return list1.equals(list2);
+        
+    }
+
+    public List<Integer> traverseTree(TreeNode root,List<Integer> list){
+        
+        if(root != null && root.left == null && root.right == null)
+            list.add(root.val);
+        
+        if(root.left != null)
+            traverseTree(root.left, list);
+        if(root.right != null)
+            traverseTree(root.right, list);
+        return list;
+    }
+}
