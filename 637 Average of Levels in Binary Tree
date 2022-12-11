@@ -1,0 +1,27 @@
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> result = new LinkedList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        
+        q.add(root);
+
+        while(!q.isEmpty()){
+            int size = q.size();
+            int n = size;
+            double avg = 0;
+            while(size != 0){
+                TreeNode tmp = q.remove();
+                avg += tmp.val;
+                if(tmp.left != null)
+                    q.add(tmp.left);
+
+                if(tmp.right != null)
+                    q.add(tmp.right);  
+                size--;   
+            }
+            avg = avg/n;
+            result.add(avg);
+        }
+        return result;
+    }
+}

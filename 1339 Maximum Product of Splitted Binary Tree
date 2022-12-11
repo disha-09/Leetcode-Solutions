@@ -1,0 +1,76 @@
+class Solution {
+    long maxProduct = 1;
+    long totalSum = 0;
+    
+    public int maxProduct(TreeNode root) {
+        totalSum = findSum(root);
+        findMaxProduct(root);
+        return (int)(maxProduct % 1000000007);
+    }
+
+    public int findMaxProduct(TreeNode subroot){
+        if(subroot == null)
+            return 0;
+        int left = findMaxProduct(subroot.left);
+        int right = findMaxProduct(subroot.right);
+        int sum = left + right + subroot.val;
+        long product = sum * (totalSum - sum);
+        maxProduct = Math.max(product,maxProduct);
+        return sum;
+        
+    }
+
+    public long findSum(TreeNode node){
+        if(node == null)
+            return 0;
+        
+        long l = findSum(node.left);
+        long r = findSum(node.right);
+
+        return node.val + l + r;
+    }
+}
+
+/*BFS Solution : Correct but TimesOut 
+
+public int maxProduct(TreeNode root) {
+        
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        int left = 0;
+        int right = 0;
+        long maxProduct = 1;
+        int totalSum = findSum(root);
+
+        while(!q.isEmpty()){
+            TreeNode tmp = q.remove();
+            
+            left = findSum(tmp.left);
+            right = findSum(tmp.right);
+            
+            //Sum of 1st subtree
+            long sum = tmp.val + left + right;
+            
+            //Sum of other subtree would be totalSum - Sum of 1st subtree
+            maxProduct = Math.max(maxProduct, sum * (totalSum-sum));
+            
+            if(tmp.left != null)
+                q.add(tmp.left);
+                
+            if(tmp.right != null)
+                q.add(tmp.right);
+        }  
+        return (int)(maxProduct % 1000000007);
+    }
+
+    public int findSum(TreeNode node){
+        if(node == null)
+            return 0;
+        
+        int l = findSum(node.left);
+        int r = findSum(node.right);
+
+        return node.val + l + r;
+    }
+
+ */

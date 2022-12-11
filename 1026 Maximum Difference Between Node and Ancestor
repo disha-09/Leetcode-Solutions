@@ -1,0 +1,29 @@
+class Solution {
+    /*
+    Finding the max value of the node and min value of the node from left-subtree and right-subtree each.
+    Then finding the abs difference between them (max - min) and storing the max difference as the result and returning it.
+     */
+    int result = 0;
+    public int maxAncestorDiff(TreeNode root) {
+        if(root == null)
+            return 0;
+
+        helper(root, root.val, root.val);
+        
+        return result;
+    }
+
+    public void helper(TreeNode node, int max, int min){
+        
+        max = Math.max(node.val, max);//Max Value from the subtree
+        min = Math.min(node.val, min);//Min Value from the subtree
+        
+        result = Math.max(result, max-min);//difference between max and min and storing the max difference
+        
+        if(node.left!=null)
+            helper(node.left, max, min);
+        
+        if(node.right != null)
+            helper(node.right, max, min);
+    }
+}

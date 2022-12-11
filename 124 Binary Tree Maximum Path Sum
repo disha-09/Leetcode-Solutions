@@ -1,0 +1,33 @@
+class Solution {
+    
+    int maxSum = Integer.MIN_VALUE;
+    
+    public int maxPathSum(TreeNode root) {
+        calculatePathSum(root);
+        return maxSum;       
+    }
+
+    public int calculatePathSum(TreeNode node){
+
+        if(node == null)
+            return 0;
+
+        else{
+            int leftPathSum = calculatePathSum(node.left);
+            int rightPathSum = calculatePathSum(node.right);
+
+            int sum = node.val + leftPathSum + rightPathSum;
+            //We consider suml and sumr as seperate sums to compare because there can be negative numbers that can lower the sum
+            int suml = node.val + leftPathSum;
+            int sumr = node.val + rightPathSum;
+
+            int val = Math.max(node.val, Math.max(suml, Math.max(sum, sumr)));
+            if(val > maxSum)
+                maxSum = val;
+
+            return node.val>node.val+Math.max(leftPathSum, rightPathSum)
+                    ? node.val
+                    : node.val+Math.max(leftPathSum, rightPathSum);           
+        }
+    }
+}
