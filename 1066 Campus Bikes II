@@ -1,0 +1,35 @@
+class Solution {
+    int min = Integer.MAX_VALUE;
+
+    public int assignBikes(int[][] workers, int[][] bikes) {
+        findMinimum(workers, bikes, 0, new boolean[bikes.length][2], 0);
+        return min;
+    }
+
+    public void findMinimum(int[][] workers, int[][] bikes, int workerIndex, boolean[][] visited, int csum){
+        if(workerIndex == workers.length){
+            min = Math.min(csum, min);
+            return;
+        }
+
+        if(csum > min)
+            return;
+
+        for(int i = 0; i < bikes.length; i++){
+            if(visited[i][0] && visited[i][1]){
+                continue;
+            }else{
+                visited[i][0] = true;
+                visited[i][1] = true;
+                findMinimum(workers, bikes, workerIndex+1, visited, 
+                            csum + manhattanDistance(workers[workerIndex][0],workers[workerIndex][1],bikes[i][0],bikes[i][1]));
+                visited[i][0] = false;
+                visited[i][1] = false;
+            }
+        }
+    }
+
+    public int manhattanDistance(int wx, int wy, int bx, int by){
+        return Math.abs(wx - bx) + Math.abs(wy - by);
+    }
+}
