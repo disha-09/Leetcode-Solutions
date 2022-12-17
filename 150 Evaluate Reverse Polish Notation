@@ -1,0 +1,46 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        
+        if(tokens.length == 1 && 
+            (tokens[0].chars().allMatch( Character::isDigit ) || (tokens[0].startsWith("-") && tokens[0].length()>1))){
+            return Integer.parseInt(tokens[0]);
+        }
+
+        Stack<Integer> stk = new Stack<>();
+        int result = 0;
+        
+        for(int i = 0; i < tokens.length; i++){
+               
+            if(tokens[i].chars().allMatch(Character::isDigit ) 
+                || (tokens[i].startsWith("-") && tokens[i].length()>1)){
+
+                stk.push(Integer.parseInt(tokens[i]));
+            }else{
+                String operand = tokens[i];
+                
+                int a = stk.pop();
+                int b = stk.pop();
+
+                if(operand.equals("+"))
+                    result = a + b;
+                    
+                else if(operand.equals("-"))
+                    result = b - a;
+                   
+                else if(operand.equals("*"))
+                    result = a * b;
+                    
+                else if(operand.equals("/"))
+                    result = b / a;
+                
+                stk.push(result);
+            }
+        }
+        return result;
+    }
+}
+/**
+number push in stack
+operator pop twice and perform operation and push result in stack
+
+ */
