@@ -1,0 +1,42 @@
+class Solution {
+    public boolean possibleBipartition(int n, int[][] dislikes) {
+        HashMap<Integer, List<Integer>> graph = new HashMap<>();
+
+        for(int i = 0; i < dislikes.length; i++){
+            graph.computeIfAbsent(dislikes[i][0], val -> new LinkedList<>()).add(dislikes[i][1]);
+            graph.computeIfAbsent(dislikes[i][1], val -> new LinkedList<>()).add(dislikes[i][0]);
+        }
+        
+        int color[] = new int[n+1];
+        Arrays.fill(color, 0);
+
+        for(int i = 1; i <= n; i++){
+            if(color[i] == 0 && !bfs(graph, color, i))
+                return false;
+        }
+        
+        return true;
+    }
+
+    public boolean bfs(HashMap<Integer, List<Integer>> graph, int[] color, int start){
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
+        color[start] = 1;
+
+        while(!q.isEmpty()){
+            int i = q.poll();
+            if(!graph.containsKey(i))
+                continue;
+            for(int j : graph.get(i)){
+                if(color[j] == color[i]){
+                    return false;
+                }
+                if(color[j] == 0){
+                    color[j] = color[i] == 1?2:1;
+                    q.add(j);
+                }
+            }
+        }
+        return true;
+    }
+}

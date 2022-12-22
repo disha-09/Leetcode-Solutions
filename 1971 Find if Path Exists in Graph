@@ -1,0 +1,35 @@
+class Solution {
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        int len = edges.length;
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+       
+        for(int i = 0; i < len; i++){
+            int a = edges[i][0];
+            int b = edges[i][1];
+
+            map.computeIfAbsent(a, val->new LinkedList<>()).add(b);
+            map.computeIfAbsent(b, val->new LinkedList<>()).add(a);
+        }
+        
+        Queue<Integer> q = new LinkedList<>();
+        boolean[] visited = new boolean[n];
+
+        q.add(source);
+        visited[source] = true;
+
+        while(!q.isEmpty()){
+            int node = q.remove();
+
+            if(node == destination)
+                return true;
+
+            for(int i : map.get(node)){
+                if(!visited[i]){
+                    visited[i] = true;
+                    q.add(i);
+                }
+            }
+        }
+        return false;
+    }
+}
