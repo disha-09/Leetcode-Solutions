@@ -1,0 +1,35 @@
+class Solution {
+    public String findSmallestRegion(List<List<String>> regions, String region1, String region2) {
+        Map<String, List<String>> map = new HashMap<>();
+        List<String> list1 = new LinkedList<>();
+        List<String> list2 = new LinkedList<>();
+        
+        for(List<String> r : regions){
+            for(int i = 1; i < r.size(); i++){
+                map.computeIfAbsent(r.get(0), val -> new LinkedList<>()).add(r.get(i));
+            }
+        }
+        
+        list1.add(region1);
+        list2.add(region2);
+        addRegions(map, list1, region1);
+        addRegions(map, list2, region2);
+
+        for(String s : list1){
+            if(list2.contains(s))
+                return s;
+        }
+        
+        return "";
+    }
+
+    public void addRegions(Map<String, List<String>> map, List<String> list, String region){
+        
+        for(String key : map.keySet()){
+            if(map.get(key).contains(region)){
+                list.add(key);
+                addRegions(map, list, key);
+            }
+        }
+    }
+}
