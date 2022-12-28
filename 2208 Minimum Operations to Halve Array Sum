@@ -1,0 +1,22 @@
+class Solution {
+    public int halveArray(int[] nums) {
+        double sum = Arrays.stream(nums).mapToDouble(Double::valueOf).sum();
+        double val = sum/2;
+        
+        PriorityQueue<Double> pq = new PriorityQueue<>(nums.length, Comparator.reverseOrder());
+        for(int n : nums)
+            pq.add(Double.valueOf(n));
+        
+        int count = 0;
+        
+        while(sum > val){
+            double top = pq.remove();
+            double halftop = top / 2;
+            pq.add(halftop);
+            sum = sum - halftop;
+            count++;
+        }
+
+        return count;
+    }
+}

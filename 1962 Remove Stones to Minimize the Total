@@ -1,0 +1,17 @@
+class Solution {
+    public int minStoneSum(int[] piles, int k) {
+        int n = piles.length;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(n, Collections.reverseOrder());
+
+        for(int i : piles)
+            pq.add(i);
+
+        while(k > 0){
+            int r = pq.remove();
+            pq.add(r-(int)(Math.floor(r / 2)));
+            k--;
+        }
+        
+        return pq.stream().mapToInt(Integer::intValue).sum();
+    }
+}

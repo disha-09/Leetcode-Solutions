@@ -1,0 +1,53 @@
+class Solution {
+    public boolean canJump(int[] nums) {
+        int max = 0;
+
+        for(int i = 0; i < nums.length; i++){
+            if(i > max)
+                return false;
+            max=Math.max(i+nums[i], max);
+        }
+        return true;
+    } 
+    
+}
+/*  MEMOIZATION APPROACH
+    public boolean canJump(int[] nums) {
+
+        boolean dp[] = new boolean[nums.length+1];
+        return jumpGame(nums, 0, dp);
+    }
+
+    public boolean jumpGame(int[] nums, int start, boolean[] dp){
+        if(start == nums.length-1)
+            return true;
+        if(dp[start] == true)
+            return true;
+
+        for(int i = 1; i <= nums[start]; i++){
+            dp[start+i] = jumpGame(nums, start+i, dp);
+            if(dp[start+i])
+                return true;
+        }
+
+        return false;
+    }
+ */
+    
+/*RECURSIVE APPROACH
+
+    public boolean canJump(int[] nums) {
+        return jumpGame(nums, 0);
+    }
+
+    public boolean jumpGame(int[] nums, int start){
+        if(start == nums.length-1)
+            return true;
+
+        for(int i = 1; i <= nums[start]; i++){
+            if(jumpGame(nums, start+i))
+                return true;
+        }
+        return false;
+    }
+ */
